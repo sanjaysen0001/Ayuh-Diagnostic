@@ -59,7 +59,7 @@ class Editprofile extends React.Component {
         this.setState({ data: response.data.Diagnostic });
         this.setState(response.data.Diagnostic);
 
-        console.log(response.data.Diagnostic);
+        console.log(response.data.Diagnostic.image);
       })
       .catch((error) => {
         this.setState({ error: error.message });
@@ -70,29 +70,46 @@ class Editprofile extends React.Component {
       [e.target.name]: e.target.value,
     });
   };
-
+  handleChangeFile = (e) => {
+    console.log(e.target.files[0]);
+    this.setState({ file: e.target.files[0] });
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem("userData"));
 
+    const formData = new FormData();
+    formData.append("file", this.state.file);
+    formData.append("name", this.state.name);
+    formData.append("email", this.state.email);
+    formData.append("mobileNumber", this.state.mobileNumber);
+    formData.append("licenseNumber", this.state.licenseNumber);
+    formData.append("panNo", this.state.panNo);
+    formData.append("gstNo", this.state.gstNo);
+    formData.append("city1", this.state.city1);
+    formData.append("state1", this.state.state1);
+    formData.append("country1", this.state.country1);
+    formData.append("address1", this.state.address1);
     axiosConfig
-      .put(`/diagnostic/edit-profile-diagnostic/${user?._id}`)
+      .put(`/diagnostic/edit-profile-diagnostic/${user?._id}`, formData)
       .then((response) => {
-        console.log(response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: `${response.data.message}`,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        });
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        // Swal.fire({
+        //   icon: "error",
+        //   title: `${error}`,
+        //   text: "Something went wrong! Please try again later.",
+        // });
       });
-    Swal.fire({
-      icon: "success",
-      title: "Success!",
-      text: "Form submitted successfully.",
-      confirmButtonColor: "#3085d6",
-      confirmButtonText: "OK",
-    }).catch((error) => {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! Please try again later.",
-      });
-    });
   };
 
   render() {
@@ -106,7 +123,7 @@ class Editprofile extends React.Component {
               <Card className="bg-authentication rounded-0 mb-0 w-100">
                 <div className="profile-img text-center st-1">
                   <img
-                    src=""
+                    src={this.state.data?.image}
                     alt="adminimg"
                     className="img-fluid img-border rounded-circle box-shadow-1"
                     width="150"
@@ -347,6 +364,7 @@ class Editprofile extends React.Component {
                         <Input
                           type="text"
                           name="licenseNumber"
+                          value={this.state.licenseNumber}
                           onChange={this.handleChange}
                         />
                       </Col>
@@ -368,31 +386,13 @@ class Editprofile extends React.Component {
                           onChange={this.handleChange}
                         />
                       </Col>
-                      {/* <Col lg="6" xl="6" md="6">
-                        <Label>Password</Label>
-                        <Input
-                          type="password"
-                          name="password"
-                          value={this.state.confirmPassword}
-                          onChange={this.handleChange}
-                        />
-                      </Col>
-                      <Col lg="6" xl="6" md="6">
-                        <Label>Confirm Password</Label>
-                        <Input
-                          type="password"
-                          name="confirmPassword"
-                          value={this.state.confirmPassword}
-                          onChange={this.handleChange}
-                        />
-                      </Col> */}
+
                       <Col lg="6" xl="6" md="6">
                         <Label>Image</Label>
                         <Input
                           type="file"
                           name="file"
-                          value={this.state.file}
-                          onChange={this.handleChange}
+                          onChange={this.handleChangeFile}
                         />
                       </Col>
                       <Col lg="6" xl="6" md="6"></Col>

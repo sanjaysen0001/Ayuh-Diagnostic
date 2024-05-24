@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+// import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {
   Card,
   CardBody,
@@ -13,56 +13,56 @@ import {
 import axiosConfig from "../../../axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
 import { Route } from "react-router-dom";
-import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
+// import Breadcrumbs from "../../../components/@vuexy/breadCrumbs/BreadCrumb";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 export class Edittestlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: '',
-      testName: '',
-      price: '',
-      discountPrice: '',
-      id: '' // Assuming you have the id stored in the state or passed as a prop
+      category: "",
+      testName: "",
+      price: "",
+      discountPrice: "",
+      id: "", // Assuming you have the id stored in the state or passed as a prop
     };
 
     this.changeHandler = this.changeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
-  } submitHandler(event) {
+  }
+  submitHandler(event) {
     event.preventDefault();
     this.updateTest();
   }
 
   updateTest() {
     const { category, testName, price, discountPrice, id } = this.state;
-    axiosConfig.put(`/test/update-test/${id}`, {
-      category,
-      testName,
-      price,
-      discountPrice
-    })
-    .then(response => {
-      console.log(response.data);
-      // Handle success (e.g., show a success message, redirect to another page)
-    })
-    .catch(error => {
-      console.error('There was an error updating the test!', error);
-      // Handle error (e.g., show an error message)
-    });
+    axiosConfig
+      .put(`/test/update-test/${id}`, {
+        category,
+        testName,
+        price,
+        discountPrice,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error updating the test!", error);
+      });
   }
 
   toggleDropdown = () => {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
+    this.setState((prevState) => ({
+      dropdownOpen: !prevState.dropdownOpen,
     }));
-  }
+  };
 
-  selectOption = option => {
+  selectOption = (option) => {
     this.setState({
-      selectedOption: option
+      selectedOption: option,
     });
-  }
+  };
   onChangeHandler = (event) => {
     this.setState({ selectedFile: event.target.files[0] });
     this.setState({ selectedName: event.target.files[0].name });
@@ -70,12 +70,11 @@ export class Edittestlist extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.match.params);
     let { id } = this.props.match.params;
     axiosConfig
       .get(`/test/view-test-by-id/${id}`)
       .then((response) => {
-        const datas=response.data.Test
+        const datas = response.data.Test;
         console.log(datas);
         this.setState({
           category: datas?.category,
@@ -97,19 +96,22 @@ export class Edittestlist extends Component {
   };
 
   submitHandler = (e) => {
+    e.preventDefault();
     const payload = {
       category: this.state.category,
-
+      testName: this.state.testName,
+      price: this.state.price,
+      discountPrice: this.state.discountPrice,
     };
-    e.preventDefault();
     let { id } = this.props.match.params;
     axiosConfig
-      .put(`/category/update-category/${id}`, payload)
+      .put(`/test/update-test/${id}`, payload)
       .then((response) => {
+        console.log(response?.data?.message);
         Swal.fire({
           icon: "success",
           title: "Success!",
-          text: "Category Edit successfully.",
+          text: `${response?.data?.message}`,
           confirmButtonColor: "#3085d6",
           confirmButtonText: "OK",
         }).then((result) => {
@@ -122,13 +124,10 @@ export class Edittestlist extends Component {
         console.log(error.response);
       });
   };
-  render()
-  
-  {
+  render() {
     const { category, testName, price, discountPrice } = this.state;
     return (
       <div>
-        
         <Card>
           <Row className="m-2">
             <Col>
@@ -174,33 +173,31 @@ export class Edittestlist extends Component {
                     onChange={this.changeHandler}
                   ></Input>
                 </Col>
-               
-                <Col lg="6" md="6" sm="6" className="mb-2">
-                <Label>Price</Label>
-                <Input
-                  required
-                  type="number"
-                  name="price"
-                  placeholder="Date"
-                  value={this.state.price}
-                  onChange={this.changeHandler}
-                ></Input>
-              </Col>
-              <Col lg="6" md="6" sm="6" className="mb-2">
-                <Label>Discount Price</Label>
-                <Input
-                  required
-                  type="number"
-                  name="discountPrice"
-                  placeholder="Amount"
-                  value={this.state.discountPrice}
-                  onChange={this.changeHandler}
-                ></Input>
-              </Col>
-             
-              
 
-                 {/*
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <Label>Price</Label>
+                  <Input
+                    required
+                    type="number"
+                    name="price"
+                    placeholder="Date"
+                    value={this.state.price}
+                    onChange={this.changeHandler}
+                  ></Input>
+                </Col>
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                  <Label>Discount Price</Label>
+                  <Input
+                    required
+                    type="number"
+                    name="discountPrice"
+                    placeholder="Amount"
+                    value={this.state.discountPrice}
+                    onChange={this.changeHandler}
+                  ></Input>
+                </Col>
+
+                {/*
                 <Col lg="6" md="6" sm="6" className="mb-2">
                   <Label>User Image</Label>
                   <Input
@@ -272,14 +269,13 @@ export class Edittestlist extends Component {
               </Col> */}
               <Row>
                 <Col lg="6" md="6" sm="6" className="mb-2">
-{/*
                   <Button.Ripple
                     color="primary"
                     type="submit"
                     className="mr-1 mb-1"
                   >
                     Update Test
-            </Button.Ripple>*/}
+                  </Button.Ripple>
                 </Col>
               </Row>
             </Form>
