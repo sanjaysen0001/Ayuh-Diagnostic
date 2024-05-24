@@ -49,6 +49,7 @@ const analyticsDashboard = lazy(() =>
 );
 const Category = lazy(() => import("./Diagnosticpages/Category.js"));
 const Subcategory = lazy(() => import("./Diagnosticpages/Subcategory.js"));
+
 const Deliverreport = lazy(() => import("./Diagnosticpages/Deliverreport.js"));
 const Rejectedreport = lazy(() =>
   import("./Diagnosticpages/Rejectedreport.js")
@@ -317,6 +318,7 @@ const EditProduct = lazy(() =>
 const ViewProduct = lazy(() =>
   import("./views/apps/productmanager/product/ViewProduct")
 );
+const Viewsubcategory=lazy(()=>import('./views/apps/productmanager/product/Viewsubcategory.js'))
 // kundli management
 const KundliMatchList = lazy(() =>
   import("./views/apps/kundlimanage/KundliMatchList")
@@ -1041,9 +1043,10 @@ class AppRouter extends React.Component {
               component={EditProduct}
             />
             <AppRoute
-              path="/app/productmanager/product/viewProduct/:id"
+              path="/viewCategory/:id"
               component={ViewProduct}
             />
+            <AppRoute path="/View-sub-category/:id" component={Viewsubcategory}/>
             <AppRoute
               path="/appmanagement/category-list"
               component={CategoryList}
