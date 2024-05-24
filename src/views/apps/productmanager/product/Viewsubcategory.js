@@ -23,12 +23,12 @@ import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import { data } from "jquery";
-export class ViewProduct extends Component {
+export class Viewsubcategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryName: "",
-        discountPrice:"",
+        category: "",
+        subCategoryName:"",
         price:"",
         testName:"",
 
@@ -67,9 +67,9 @@ export class ViewProduct extends Component {
   componentDidMount() {
     let { id } = this.props.match.params;
 
-    axiosConfig.get(`/category/view-category-by-id/${id}`)
+    axiosConfig.get(`/category/view-sub-category-by-id/${id}`)
       .then((response) => {
-        const datas = response?.data?.Category;
+        const datas = response?.data?.SubCategory;
         this.setState(datas);
         console.log(datas);
       })
@@ -85,7 +85,7 @@ export class ViewProduct extends Component {
           <Row className="m-2">
             <Col>
               <h1 col-sm-6 className="float-left">
-                View Category
+                View Sub-Category
               </h1>
             </Col>
             <Col>
@@ -93,7 +93,7 @@ export class ViewProduct extends Component {
                 render={({ history }) => (
                   <Button
                     className=" btn btn-danger float-right"
-                    onClick={() => history.push("/Category")}
+                    onClick={() => history.push("/Sub-category")}
                   >
                     Back
                   </Button>
@@ -109,12 +109,23 @@ export class ViewProduct extends Component {
                   <Input
                     type="text"
                     name="categoryName"
-                    value={this.state.categoryName}
+                    value={this.state.category}
                   
                     disabled
                     required
                   ></Input>
                 </Col>
+                <Col lg="6" md="6" sm="6" className="mb-2">
+                <Label>Sub-Category Name</Label>
+                <Input
+                  type="text"
+                  name="categoryName"
+                  value={this.state.subCategoryName}
+                
+                  disabled
+                  required
+                ></Input>
+              </Col>
                
 
                 {/* <Col lg="6" md="6" sm="6" className="mb-2">
@@ -233,4 +244,4 @@ export class ViewProduct extends Component {
     );
   }
 }
-export default ViewProduct;
+export default Viewsubcategory;

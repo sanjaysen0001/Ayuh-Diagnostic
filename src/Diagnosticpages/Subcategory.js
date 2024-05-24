@@ -159,7 +159,7 @@ class Subcategory extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
-              {/*
+           
               <Route
                 render={({ history }) => (
                   <Eye
@@ -168,13 +168,13 @@ class Subcategory extends React.Component {
                     color="green"
                     onClick={() =>
                       history.push(
-                        `/app/productmanager/product/viewProduct/${params.data._id}`
+                        `/View-sub-category/${params.data._id}`
                       )
                     }
                   />
                 )}
               />
-               */}
+             
               <Route
                 render={({ history }) => (
                   <Edit

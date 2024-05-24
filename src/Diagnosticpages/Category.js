@@ -44,7 +44,7 @@ class Category extends React.Component {
         headerName: "S.No",
         valueGetter: "node.rowIndex + 1",
         field: "node.rowIndex + 1",
-        width: 120,
+        width: 160,
         filter: true,
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
@@ -68,7 +68,7 @@ class Category extends React.Component {
         headerName: "Category Name",
         field: "categoryname",
         filter: true,
-        width: 400,
+        width: 800,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -157,11 +157,11 @@ class Category extends React.Component {
       {
         headerName: "Action",
         field: "sortorder",
-        width: 120,
+        width: 160,
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
-              {/*
+             
               <Route
                 render={({ history }) => (
                   <Eye
@@ -170,13 +170,13 @@ class Category extends React.Component {
                     color="green"
                     onClick={() =>
                       history.push(
-                        `/app/productmanager/product/viewProduct/${params.data._id}`
+                        `/viewCategory/${params.data._id}`
                       )
                     }
                   />
                 )}
               />
-               */}
+             
               <Route
                 render={({ history }) => (
                   <Edit
@@ -218,18 +218,19 @@ class Category extends React.Component {
       cancelButtonText: "Cancel",
     }).then((result) => {
       console.log(result);
-      window.location.reload();
-      if (result.isConfirmed) {
+     
+     
         // User confirmed, proceed with deletion
         axiosConfig
           .delete(`/category/delete-category/${_id}`)
           .then((response) => {
             console.log(response.data.message);
+            window.location.reload();
           })
           .catch((error) => {
             console.log("hello");
           });
-      }
+      
     });
   }
 
